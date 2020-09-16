@@ -50,3 +50,34 @@ export const addOrder = async (req: Request, res: Response): Promise<any> => {
     });
   }
 };
+
+// @desc    Delete an order
+// @route   DELETE /api/v1/orders/:id
+// @access  Public
+export const deleteOrder = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        error: 'No order found',
+      });
+    }
+
+    await order.remove();
+
+    return res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
