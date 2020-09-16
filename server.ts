@@ -2,10 +2,10 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import colors from 'colors';
-import connectDB from './config/db';
-import orders from './routes/api/orders';
+import connectDB from 'config/db';
+import orders from 'routes/api/orders';
 
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: 'config/config.env' });
 
 connectDB();
 

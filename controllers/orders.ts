@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Order from '../models/Order';
+import Order from 'models/Order';
 
 // @desc    Get all orders
 // @route   GET /api/v1/orders
