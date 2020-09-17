@@ -53,3 +53,34 @@ export const addPosition = async (
     });
   }
 };
+
+// @desc    Delete a position
+// @route   DELETE /api/v1/positions
+// @access  Public
+export const deletePosition = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const position = await Position.findById(req.params.id);
+
+    if (!position) {
+      return res.status(404).json({
+        success: false,
+        error: 'No position found',
+      });
+    }
+
+    await position.remove();
+
+    return res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
