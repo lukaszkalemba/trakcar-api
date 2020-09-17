@@ -28,10 +28,13 @@
         "ts": "never",
         "tsx": "never"
       }
-    ]
+    ],
+    "no-shadow": ["error", { "allow": ["OrderColor"] }],
+    "import/prefer-default-export": 0
   },
   "settings": {
     "import/resolver": {
+      "typescript": {},
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }

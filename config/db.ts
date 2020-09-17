@@ -2,9 +2,8 @@ import mongoose from 'mongoose';
 import colors from 'colors';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: 'config.env' });
 
-/* eslint-disable no-console */
 const connectDB = async (): Promise<void> => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI as string, {
