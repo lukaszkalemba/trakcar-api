@@ -7,7 +7,6 @@ import orders from 'routes/api/orders';
 
 dotenv.config({ path: 'config/config.env' });
 
-
 connectDB();
 
 const app: Application = express();
