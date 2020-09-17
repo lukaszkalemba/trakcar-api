@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "node dist/server.js",
-    "dev": "nodemon server.ts",
+    "start": "NODE_PATH=./dist node dist/server.js",
+    "dev": "NODE_PATH=./ nodemon server.ts",
     "build": "tsc -p ."
   },
   "author": "@lukaszkalemba",
@@ -27,6 +27,7 @@
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.3.0",
