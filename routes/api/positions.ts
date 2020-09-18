@@ -1,4 +1,5 @@
 import express from 'express';
+import validatePosition from 'middleware/validatePosition';
 import {
   getPositions,
   addPosition,
@@ -8,8 +9,8 @@ import {
 
 const router = express.Router();
 
-router.route('/').get(getPositions).post(addPosition);
+router.route('/').get(getPositions).post(validatePosition, addPosition);
 
-router.route('/:id').put(editPosition).delete(deletePosition);
+router.route('/:id').put(validatePosition, editPosition).delete(deletePosition);
 
 export default router;
