@@ -4,7 +4,10 @@ import Position from 'models/Position';
 // @desc    Get all positions
 // @route   GET /api/v1/positions
 // @access  Public
-export const getPositions = async (_: Request, res: Response): Promise<any> => {
+export const getPositions = async (
+  _: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const positions = await Position.find();
 
@@ -27,7 +30,7 @@ export const getPositions = async (_: Request, res: Response): Promise<any> => {
 export const addPosition = async (
   req: Request,
   res: Response
-): Promise<any> => {
+): Promise<Response> => {
   try {
     const position = await Position.create(req.body);
 
@@ -60,7 +63,7 @@ export const addPosition = async (
 export const editPosition = async (
   req: Request,
   res: Response
-): Promise<any> => {
+): Promise<Response> => {
   try {
     const position = await Position.findById(req.params.id);
 
@@ -97,7 +100,7 @@ export const editPosition = async (
 export const deletePosition = async (
   req: Request,
   res: Response
-): Promise<any> => {
+): Promise<Response> => {
   try {
     const position = await Position.findById(req.params.id);
 
