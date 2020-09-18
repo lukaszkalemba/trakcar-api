@@ -4,7 +4,10 @@ import Order from 'models/Order';
 // @desc    Get all orders
 // @route   GET /api/v1/orders
 // @access  Public
-export const getOrders = async (_: Request, res: Response): Promise<any> => {
+export const getOrders = async (
+  _: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const orders = await Order.find();
 
@@ -24,7 +27,10 @@ export const getOrders = async (_: Request, res: Response): Promise<any> => {
 // @desc    Add new order
 // @route   POST /api/v1/orders
 // @access  Public
-export const addOrder = async (req: Request, res: Response): Promise<any> => {
+export const addOrder = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const order = await Order.create(req.body);
 
@@ -54,7 +60,10 @@ export const addOrder = async (req: Request, res: Response): Promise<any> => {
 // @desc    Edit an order
 // @route   PUT /api/v1/orders/:id
 // @access  Public
-export const editOrder = async (req: Request, res: Response): Promise<any> => {
+export const editOrder = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const order = await Order.findById(req.params.id);
 
@@ -111,7 +120,7 @@ export const editOrder = async (req: Request, res: Response): Promise<any> => {
 export const deleteOrder = async (
   req: Request,
   res: Response
-): Promise<any> => {
+): Promise<Response> => {
   try {
     const order = await Order.findById(req.params.id);
 
