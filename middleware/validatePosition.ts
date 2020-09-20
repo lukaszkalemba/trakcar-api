@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
+// TODO If position name isn't unique it returns server error
+
 const validatePosition = (
   req: Request,
   res: Response,
