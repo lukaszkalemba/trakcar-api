@@ -6,7 +6,7 @@ const OrderSchema = new Schema({
     ref: 'Position',
   },
   orderDate: {
-    type: Date,
+    type: String,
     required: [true, 'Enter the date of order'],
   },
   startTime: {
@@ -58,7 +58,7 @@ enum OrderColor {
 
 interface IOrderSchema extends Document {
   positionId: string;
-  orderDate: Date;
+  orderDate: string;
   startTime: string;
   endTime: string;
   orderName: string;
