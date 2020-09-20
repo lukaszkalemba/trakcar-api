@@ -1,4 +1,5 @@
 import express from 'express';
+import validateOrder from 'middleware/validateOrder';
 import {
   getOrders,
   addOrder,
@@ -8,8 +9,8 @@ import {
 
 const router = express.Router();
 
-router.route('/').get(getOrders).post(addOrder);
+router.route('/').get(getOrders).post(validateOrder, addOrder);
 
-router.route('/:id').put(editOrder).delete(deleteOrder);
+router.route('/:id').put(validateOrder, editOrder).delete(deleteOrder);
 
 export default router;
