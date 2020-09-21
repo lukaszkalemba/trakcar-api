@@ -76,28 +76,28 @@ export const editOrder = async (
 
     const {
       positionId,
-      orderDate,
+      date,
       startTime,
       endTime,
-      orderName,
+      name,
       carBrand,
       carModel,
       principalName,
       cost,
-      orderColor,
+      color,
       description,
     } = req.body;
 
     order.positionId = positionId;
-    order.orderDate = orderDate;
+    order.date = date;
     order.startTime = startTime;
     order.endTime = endTime;
-    order.orderName = orderName;
+    order.name = name;
     order.carBrand = carBrand;
     order.carModel = carModel;
     order.principalName = principalName;
     order.cost = cost;
-    order.orderColor = orderColor;
+    order.color = color;
     order.description = description;
 
     await order.save();

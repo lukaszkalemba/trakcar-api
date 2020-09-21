@@ -8,7 +8,7 @@ const validateOrder = async (
   res: Response,
   next: NextFunction
 ): Promise<Response | void> => {
-  const { positionId, orderDate, startTime, endTime } = req.body;
+  const { positionId, date, startTime, endTime } = req.body;
 
   const position = await Position.findById(positionId);
 
@@ -43,9 +43,9 @@ const validateOrder = async (
 
   const dateRegEx = /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/;
 
-  const isOrderDateValid = orderDate.match(dateRegEx);
+  const isDateValid = date.match(dateRegEx);
 
-  if (!isOrderDateValid) {
+  if (!isDateValid) {
     return res.status(400).json({
       success: false,
       error: 'Invalid date',
@@ -54,15 +54,15 @@ const validateOrder = async (
 
   const orders = await Order.find({ positionId });
 
-  const startTimeDate = new Date(`${orderDate}, ${startTime}`);
-  const endTimeDate = new Date(`${orderDate}, ${endTime}`);
+  const startTimeDate = new Date(`${date}, ${startTime}`);
+  const endTimeDate = new Date(`${date}, ${endTime}`);
 
   for (let i = 0; i < orders.length; i += 1) {
     const orderStartTimeDate = new Date(
-      `${orders[i].orderDate}, ${orders[i].startTime}`
+      `${orders[i].date}, ${orders[i].startTime}`
     );
     const orderEndTimeDate = new Date(
-      `${orders[i].orderDate}, ${orders[i].endTime}`
+      `${orders[i].date}, ${orders[i].endTime}`
     );
 
     const isStartTimeWithinInterval = isWithinInterval(startTimeDate, {

@@ -5,7 +5,7 @@ const OrderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Position',
   },
-  orderDate: {
+  date: {
     type: String,
     required: [true, 'Enter the date of order'],
   },
@@ -17,7 +17,7 @@ const OrderSchema = new Schema({
     type: String,
     required: [true, 'Enter the time of completion of work'],
   },
-  orderName: {
+  name: {
     type: String,
     required: [true, 'Enter the name of the order'],
   },
@@ -37,7 +37,7 @@ const OrderSchema = new Schema({
     type: Number,
     required: [true, 'Enter the price'],
   },
-  orderColor: {
+  color: {
     type: Number,
     enum: [0, 1, 2, 3, 4],
     default: 0,
@@ -48,7 +48,7 @@ const OrderSchema = new Schema({
   },
 });
 
-enum OrderColor {
+enum Color {
   Red = 0,
   Orange = 1,
   Green = 2,
@@ -58,15 +58,15 @@ enum OrderColor {
 
 interface IOrderSchema extends Document {
   positionId: string;
-  orderDate: string;
+  date: string;
   startTime: string;
   endTime: string;
-  orderName: string;
+  name: string;
   carBrand: string;
   carModel: string;
   principalName: string;
   cost: number;
-  orderColor: OrderColor;
+  color: Color;
   description?: string;
 }
 

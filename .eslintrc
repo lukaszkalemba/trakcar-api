@@ -29,7 +29,7 @@
         "tsx": "never"
       }
     ],
-    "no-shadow": ["error", { "allow": ["OrderColor"] }],
+    "no-shadow": ["error", { "allow": ["Color"] }],
     "import/prefer-default-export": 0
   },
   "settings": {
