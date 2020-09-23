@@ -4,7 +4,7 @@ import Order from 'models/Order';
 // @desc    Get all orders
 // @route   GET /api/v1/orders
 // @access  Public
-export const getOrders = async (
+export const orders_get_all = async (
   _: Request,
   res: Response
 ): Promise<Response> => {
@@ -24,10 +24,10 @@ export const getOrders = async (
   }
 };
 
-// @desc    Add new order
+// @desc    Create new order
 // @route   POST /api/v1/orders
 // @access  Public
-export const addOrder = async (
+export const orders_create_order = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -57,10 +57,10 @@ export const addOrder = async (
   }
 };
 
-// @desc    Edit an order
+// @desc    Update an order
 // @route   PUT /api/v1/orders/:id
 // @access  Public
-export const editOrder = async (
+export const orders_update_order = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -126,7 +126,7 @@ export const editOrder = async (
 // @desc    Delete an order
 // @route   DELETE /api/v1/orders/:id
 // @access  Public
-export const deleteOrder = async (
+export const orders_delete_order = async (
   req: Request,
   res: Response
 ): Promise<Response> => {

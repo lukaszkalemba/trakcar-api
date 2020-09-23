@@ -4,7 +4,7 @@ import Position from 'models/Position';
 // @desc    Get all positions
 // @route   GET /api/v1/positions
 // @access  Public
-export const getPositions = async (
+export const positions_get_all = async (
   _: Request,
   res: Response
 ): Promise<Response> => {
@@ -24,14 +24,25 @@ export const getPositions = async (
   }
 };
 
-// @desc    Add new position
+// @desc    Create new position
 // @route   POST /api/v1/positions
 // @access  Public
-export const addPosition = async (
+export const positions_create_position = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   try {
+    const { name } = req.body;
+
+    const positions = await Position.find({ name });
+
+    if (positions.length) {
+      return res.status(400).json({
+        success: false,
+        error: 'There is a position with this name already',
+      });
+    }
+
     const position = await Position.create(req.body);
 
     return res.status(201).json({
@@ -57,10 +68,10 @@ export const addPosition = async (
   }
 };
 
-// @desc    Edit a position
+// @desc    Update a position
 // @route   PUT /api/v1/positions/:id
 // @access  Public
-export const editPosition = async (
+export const positions_update_position = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -106,7 +117,7 @@ export const editPosition = async (
 // @desc    Delete a position
 // @route   DELETE /api/v1/positions
 // @access  Public
-export const deletePosition = async (
+export const positions_delete_position = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
