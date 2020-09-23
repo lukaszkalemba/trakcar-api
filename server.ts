@@ -5,7 +5,7 @@ import colors from 'colors';
 import connectDB from 'config/db';
 import orders from 'routes/api/orders';
 import positions from 'routes/api/positions';
-import auth from 'routes/api/auth';
+import users from 'routes/api/users';
 
 dotenv.config({ path: 'config/config.env' });
 
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/orders', orders);
 app.use('/api/v1/positions', positions);
-app.use('/api/v1/auth', auth);
+app.use('/api/v1/users', users);
 
 const PORT = process.env.PORT || 5000;
 
