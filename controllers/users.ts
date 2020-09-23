@@ -7,10 +7,10 @@ import User from 'models/User';
 
 dotenv.config({ path: 'config/config.env' });
 
-// @desc    Sign up user
+// @desc    Sign up a user
 // @route   POST /api/v1/auth/signup
 // @access  Public
-export const signUpUser = async (
+export const users_signup_user = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
@@ -76,10 +76,10 @@ export const signUpUser = async (
   }
 };
 
-// @desc    Sign in user
+// @desc    Login user
 // @route   POST /api/v1/auth/signin
 // @access  Public
-export const signInUser = async (
+export const users_login_user = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
