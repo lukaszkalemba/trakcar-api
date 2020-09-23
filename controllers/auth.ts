@@ -75,3 +75,63 @@ export const signUpUser = async (
     });
   }
 };
+
+// @desc    Sign in user
+// @route   POST /api/v1/auth/signin
+// @access  Public
+export const signInUser = async (
+  req: Request,
+  res: Response
+): Promise<Response | void> => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid Credentials',
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid Credentials',
+      });
+    }
+
+    const payload = {
+      user: {
+        id: user.id,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      <string>process.env.JWT_SECRET,
+      { expiresIn: '7 days' },
+      (err, token) => {
+        if (err) {
+          return res.status(400).json({
+            success: false,
+            error: err.message,
+          });
+        }
+
+        return res.status(200).json({
+          success: true,
+          data: token,
+        });
+      }
+    );
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
