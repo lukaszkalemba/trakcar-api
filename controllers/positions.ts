@@ -87,6 +87,15 @@ export const editPosition = async (
       data: {},
     });
   } catch (err) {
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map((val: any) => val.message);
+
+      return res.status(400).json({
+        success: false,
+        error: messages,
+      });
+    }
+
     return res.status(500).json({
       success: false,
       error: 'Server Error',
