@@ -36,6 +36,9 @@ export const orders_create_order = async (
   try {
     const { positionId } = req.body;
 
+    const order = new Order(req.body);
+    await order.validate();
+
     const orders = await Order.find({ positionId });
     const position = await Position.findById(positionId);
 
@@ -45,7 +48,7 @@ export const orders_create_order = async (
       return orderError;
     }
 
-    const order = await Order.create(req.body);
+    await order.save();
 
     return res.status(201).json({
       success: true,
@@ -87,6 +90,9 @@ export const orders_update_order = async (
       });
     }
 
+    const updatedOrder = new Order(req.body);
+    await updatedOrder.validate();
+
     const {
       positionId,
       date,
@@ -99,7 +105,7 @@ export const orders_update_order = async (
       cost,
       color,
       description,
-    } = req.body;
+    } = updatedOrder;
 
     let orders = await Order.find({ positionId });
     orders = orders.filter(({ id }) => id !== order.id);
