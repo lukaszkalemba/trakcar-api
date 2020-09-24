@@ -1,16 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { isWithinInterval, addHours, subHours } from 'date-fns';
-import Position from 'models/Position';
-import Order from 'models/Order';
+import { IOrderSchema } from 'models/Order';
+import { IPositionSchema } from 'models/Position';
 
-const validateOrder = async (
+const handleOrderError = (
   req: Request,
   res: Response,
-  next: NextFunction
-): Promise<Response | void> => {
-  const { positionId, date, startTime, endTime } = req.body;
-
-  const position = await Position.findById(positionId);
+  orders: IOrderSchema[],
+  position: IPositionSchema | null
+): Response | void => {
+  const { date, startTime, endTime } = req.body;
 
   if (!position) {
     return res.status(400).json({
@@ -52,8 +51,6 @@ const validateOrder = async (
     });
   }
 
-  const orders = await Order.find({ positionId });
-
   const startTimeDate = new Date(`${date}, ${startTime}`);
   const endTimeDate = new Date(`${date}, ${endTime}`);
 
@@ -82,8 +79,6 @@ const validateOrder = async (
       });
     }
   }
-
-  return next();
 };
 
-export default validateOrder;
+export default handleOrderError;

@@ -16,7 +16,7 @@ const PositionSchema = new Schema({
   },
 });
 
-interface IPositionSchema extends Document {
+export interface IPositionSchema extends Document {
   name: string;
   startTime: string;
   endTime: string;

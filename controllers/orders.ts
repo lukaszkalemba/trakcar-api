@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import Order from 'models/Order';
+import Position from 'models/Position';
+import handleOrderError from 'helpers/handleOrderError';
 
 // @desc    Get all orders
 // @route   GET /api/v1/orders
@@ -30,8 +32,19 @@ export const orders_get_all = async (
 export const orders_create_order = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<Response | void> => {
   try {
+    const { positionId } = req.body;
+
+    const orders = await Order.find({ positionId });
+    const position = await Position.findById(positionId);
+
+    const orderError = handleOrderError(req, res, orders, position);
+
+    if (orderError) {
+      return orderError;
+    }
+
     const order = await Order.create(req.body);
 
     return res.status(201).json({
@@ -63,7 +76,7 @@ export const orders_create_order = async (
 export const orders_update_order = async (
   req: Request,
   res: Response
-): Promise<Response> => {
+): Promise<Response | void> => {
   try {
     const order = await Order.findById(req.params.id);
 
@@ -87,6 +100,17 @@ export const orders_update_order = async (
       color,
       description,
     } = req.body;
+
+    let orders = await Order.find({ positionId });
+    orders = orders.filter(({ id }) => id !== order.id);
+
+    const position = await Position.findById(positionId);
+
+    const orderError = handleOrderError(req, res, orders, position);
+
+    if (orderError) {
+      return orderError;
+    }
 
     order.positionId = positionId;
     order.date = date;
