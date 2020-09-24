@@ -17,13 +17,22 @@ export const users_signup_user = async (
   try {
     const { name, email, password } = req.body;
 
+    let user = await User.findOne({ email });
+
+    if (user) {
+      return res.status(400).json({
+        success: false,
+        error: 'User already exists',
+      });
+    }
+
     const avatar = gravatar.url(email, {
       s: '200',
       r: 'pg',
       d: 'mm',
     });
 
-    const user = new User({
+    user = new User({
       name,
       email,
       password,

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Position from 'models/Position';
+import handlePostionTimeError from 'helpers/handlePostionTimeError';
 
 // @desc    Get all positions
 // @route   GET /api/v1/positions
@@ -43,6 +44,12 @@ export const positions_create_position = async (
       });
     }
 
+    const timeError = handlePostionTimeError(req, res);
+
+    if (timeError) {
+      return timeError;
+    }
+
     const position = await Position.create(req.body);
 
     return res.status(201).json({
@@ -83,6 +90,12 @@ export const positions_update_position = async (
         success: false,
         error: 'No position found',
       });
+    }
+
+    const timeError = handlePostionTimeError(req, res);
+
+    if (timeError) {
+      return timeError;
     }
 
     const { name, startTime, endTime } = req.body;

@@ -56,7 +56,7 @@ enum Color {
   Blue = 4,
 }
 
-interface IOrderSchema extends Document {
+export interface IOrderSchema extends Document {
   positionId: string;
   date: string;
   startTime: string;

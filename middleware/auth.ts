@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const validateUser = (
+export default (
   req: Request,
   res: Response,
   next: NextFunction
@@ -26,5 +26,3 @@ const validateUser = (
     });
   }
 };
-
-export default validateUser;
