@@ -1,10 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
-const validatePosition = async (
+const handlePostionTimeError = (
   req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<Response | void> => {
+  res: Response
+): Response | void => {
   const { startTime, endTime } = req.body;
 
   const timeRegEx = /^([0-1][0-9]|2[0-3]):00$/;
@@ -20,8 +19,6 @@ const validatePosition = async (
       error: 'Invalid time range',
     });
   }
-
-  return next();
 };
 
-export default validatePosition;
+export default handlePostionTimeError;
