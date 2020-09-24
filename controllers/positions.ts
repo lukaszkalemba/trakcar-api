@@ -44,13 +44,16 @@ export const positions_create_position = async (
       });
     }
 
+    const position = new Position(req.body);
+    await position.validate();
+
     const timeError = handlePostionTimeError(req, res);
 
     if (timeError) {
       return timeError;
     }
 
-    const position = await Position.create(req.body);
+    await position.save();
 
     return res.status(201).json({
       success: true,
@@ -92,13 +95,16 @@ export const positions_update_position = async (
       });
     }
 
+    const updatedPosition = new Position(req.body);
+    await updatedPosition.validate();
+
     const timeError = handlePostionTimeError(req, res);
 
     if (timeError) {
       return timeError;
     }
 
-    const { name, startTime, endTime } = req.body;
+    const { name, startTime, endTime } = updatedPosition;
 
     position.name = name;
     position.startTime = startTime;

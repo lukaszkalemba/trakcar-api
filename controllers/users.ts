@@ -39,6 +39,8 @@ export const users_signup_user = async (
       avatar,
     });
 
+    await user.validate();
+
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
 
@@ -95,6 +97,14 @@ export const users_login_user = async (
   try {
     const { email, password } = req.body;
 
+    const validationUser = new User({
+      name: 'validation user',
+      email,
+      password,
+    });
+
+    await validationUser.validate();
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -138,6 +148,15 @@ export const users_login_user = async (
       }
     );
   } catch (err) {
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map((val: any) => val.message);
+
+      return res.status(400).json({
+        success: false,
+        error: messages,
+      });
+    }
+
     return res.status(500).json({
       success: false,
       error: 'Server Error',
