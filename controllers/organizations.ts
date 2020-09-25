@@ -73,3 +73,57 @@ export const organizations_create_organization = async (
     });
   }
 };
+
+// @desc    Assign new member to the organization
+// @route   POST /api/v1/organizations/assign-member
+// @access  Private
+export const organizations_assign_member = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { accessCode } = req.body;
+
+    const organization = await Organization.findOne({ accessCode });
+
+    if (!organization) {
+      return res.status(404).json({
+        success: false,
+        error: 'No organization found',
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid token',
+      });
+    }
+
+    if (user.organization) {
+      return res.status(400).json({
+        success: false,
+        error: 'You are a member of some organization already',
+      });
+    }
+
+    organization.members.push(req.user.id);
+
+    user.organization = organization.id;
+
+    await organization.save();
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
