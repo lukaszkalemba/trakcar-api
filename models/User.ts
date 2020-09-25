@@ -22,6 +22,10 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
   },
+  organization: {
+    type: Schema.Types.ObjectId,
+    ref: 'Organization',
+  },
   date: {
     type: Date,
     default: Date.now,
@@ -33,6 +37,7 @@ interface IUserSchema extends Document {
   email: string;
   password: string;
   avatar?: string;
+  organization?: string;
   date?: Date;
 }
 
