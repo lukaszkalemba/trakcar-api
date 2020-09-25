@@ -54,7 +54,7 @@ export const users_signup_user = async (
 
     jwt.sign(
       payload,
-      <string>process.env.JWT_SECRET,
+      process.env.JWT_SECRET as string,
       { expiresIn: '7 days' },
       (err, token) => {
         if (err) {
@@ -131,7 +131,7 @@ export const users_login_user = async (
 
     jwt.sign(
       payload,
-      <string>process.env.JWT_SECRET,
+      process.env.JWT_SECRET as string,
       { expiresIn: '7 days' },
       (err, token) => {
         if (err) {
