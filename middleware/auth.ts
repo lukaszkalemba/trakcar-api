@@ -16,7 +16,9 @@ export default (
   }
 
   try {
-    jwt.verify(token, <string>process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+
+    req.user = (decoded as any).user;
 
     return next();
   } catch (err) {
