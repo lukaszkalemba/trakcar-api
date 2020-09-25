@@ -74,6 +74,63 @@ export const organizations_create_organization = async (
   }
 };
 
+// @desc    Update an organization
+// @route   PUT /api/v1/organizations/:id
+// @access  Private
+export const organizations_update_organization = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const updatedOrganization = new Organization(req.body);
+    await updatedOrganization.validate();
+
+    const organization = await Organization.findById(req.params.id);
+
+    if (!organization) {
+      return res.status(404).json({
+        success: false,
+        error: 'No organization found',
+      });
+    }
+
+    if (organization.admin.toString() !== req.user.id) {
+      return res.status(400).json({
+        success: false,
+        error: 'You are not an administrator of this organization',
+      });
+    }
+
+    const { name, accessCode } = updatedOrganization;
+
+    organization.name = name;
+    organization.accessCode = accessCode;
+
+    await organization.save();
+
+    return res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(
+        ({ message }: any): string => message
+      );
+
+      return res.status(400).json({
+        success: false,
+        error: messages,
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
+
 // @desc    Delete an organization
 // @route   DELETE /api/v1/organizations/:id
 // @access  Private
