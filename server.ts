@@ -3,9 +3,10 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import colors from 'colors';
 import connectDB from 'config/db';
-import orders from 'routes/api/orders';
-import positions from 'routes/api/positions';
 import users from 'routes/api/users';
+import organizations from 'routes/api/organizations';
+import positions from 'routes/api/positions';
+import orders from 'routes/api/orders';
 
 dotenv.config({ path: 'config/config.env' });
 
@@ -19,9 +20,10 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use('/api/v1/orders', orders);
-app.use('/api/v1/positions', positions);
 app.use('/api/v1/users', users);
+app.use('/api/v1/organizations', organizations);
+app.use('/api/v1/positions', positions);
+app.use('/api/v1/orders', orders);
 
 const PORT = process.env.PORT || 5000;
 
