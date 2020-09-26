@@ -3,7 +3,6 @@ import { Document, Schema, model } from 'mongoose';
 const PositionSchema = new Schema({
   name: {
     type: String,
-    unique: true,
     required: [true, 'Enter a position name'],
   },
   startTime: {
@@ -14,12 +13,17 @@ const PositionSchema = new Schema({
     type: String,
     required: [true, 'Enter the time the work ends on the position'],
   },
+  organization: {
+    type: Schema.Types.ObjectId,
+    ref: 'Organization',
+  },
 });
 
 export interface IPositionSchema extends Document {
   name: string;
   startTime: string;
   endTime: string;
+  organization: string;
 }
 
 export default model<IPositionSchema>('Position', PositionSchema);
