@@ -1,17 +1,36 @@
 import { Request, Response } from 'express';
-import Order from 'models/Order';
+import Order, { IOrderSchema } from 'models/Order';
 import Position from 'models/Position';
+import Organization, { IOrganizationSchema } from 'models/Organization';
 import handleOrderError from 'helpers/handleOrderError';
 
 // @desc    Get all orders
 // @route   GET /api/v1/orders
-// @access  Public
+// @access  Private
 export const orders_get_all = async (
-  _: Request,
+  req: Request,
   res: Response
 ): Promise<Response> => {
   try {
-    const orders = await Order.find();
+    const organization = await Organization.findOne({ members: req.user.id });
+
+    if (!organization) {
+      return res.status(404).json({
+        success: false,
+        error: 'No organization found',
+      });
+    }
+
+    const orders: Array<IOrderSchema> = [];
+
+    for await (const position of (organization as IOrganizationSchema)
+      .positions) {
+      const positionOrders = await Order.find({
+        positionId: position.toString(),
+      });
+
+      orders.push(...positionOrders);
+    }
 
     return res.status(200).json({
       success: true,
@@ -28,7 +47,7 @@ export const orders_get_all = async (
 
 // @desc    Create new order
 // @route   POST /api/v1/orders
-// @access  Public
+// @access  Private
 export const orders_create_order = async (
   req: Request,
   res: Response
@@ -39,8 +58,16 @@ export const orders_create_order = async (
     const order = new Order(req.body);
     await order.validate();
 
-    const orders = await Order.find({ positionId });
     const position = await Position.findById(positionId);
+
+    if (!position) {
+      return res.status(400).json({
+        success: false,
+        error: 'There is no such position',
+      });
+    }
+
+    const orders = await Order.find({ positionId });
 
     const orderError = handleOrderError(req, res, orders, position);
 
@@ -48,6 +75,9 @@ export const orders_create_order = async (
       return orderError;
     }
 
+    position.orders.push(order.id);
+
+    await position.save();
     await order.save();
 
     return res.status(201).json({
@@ -75,13 +105,23 @@ export const orders_create_order = async (
 
 // @desc    Update an order
 // @route   PUT /api/v1/orders/:id
-// @access  Public
+// @access  Private
 export const orders_update_order = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
   try {
-    const order = await Order.findById(req.params.id);
+    const organization = await Organization.findOne({ members: req.user.id });
+
+    let order: IOrderSchema | null = null;
+
+    for await (const position of (organization as IOrganizationSchema)
+      .positions) {
+      order = await Order.findOne({
+        _id: req.params.id,
+        positionId: position.toString(),
+      });
+    }
 
     if (!order) {
       return res.status(404).json({
@@ -108,9 +148,16 @@ export const orders_update_order = async (
     } = updatedOrder;
 
     let orders = await Order.find({ positionId });
-    orders = orders.filter(({ id }) => id !== order.id);
+    orders = orders.filter(({ id }) => id !== (order as IOrderSchema).id);
 
     const position = await Position.findById(positionId);
+
+    if (!position) {
+      return res.status(400).json({
+        success: false,
+        error: 'There is no such position',
+      });
+    }
 
     const orderError = handleOrderError(req, res, orders, position);
 
@@ -155,13 +202,25 @@ export const orders_update_order = async (
 
 // @desc    Delete an order
 // @route   DELETE /api/v1/orders/:id
-// @access  Public
+// @access  Private
 export const orders_delete_order = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   try {
-    const order = await Order.findById(req.params.id);
+    const organization = await Organization.findOne({
+      members: req.user.id,
+    });
+
+    let order: IOrderSchema | null = null;
+
+    for await (const position of (organization as IOrganizationSchema)
+      .positions) {
+      order = await Order.findOne({
+        _id: req.params.id,
+        positionId: position.toString(),
+      });
+    }
 
     if (!order) {
       return res.status(404).json({

@@ -1,4 +1,5 @@
 import express from 'express';
+import auth from 'middleware/auth';
 import {
   orders_get_all,
   orders_create_order,
@@ -8,12 +9,12 @@ import {
 
 const router = express.Router();
 
-router.get('/', orders_get_all);
+router.get('/', auth, orders_get_all);
 
-router.post('/', orders_create_order);
+router.post('/', auth, orders_create_order);
 
-router.put('/:id', orders_update_order);
+router.put('/:id', auth, orders_update_order);
 
-router.delete('/:id', orders_delete_order);
+router.delete('/:id', auth, orders_delete_order);
 
 export default router;
