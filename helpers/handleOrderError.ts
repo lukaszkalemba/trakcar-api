@@ -7,16 +7,9 @@ const handleOrderError = (
   req: Request,
   res: Response,
   orders: IOrderSchema[],
-  position: IPositionSchema | null
+  position: IPositionSchema
 ): Response | void => {
   const { date, startTime, endTime } = req.body;
-
-  if (!position) {
-    return res.status(400).json({
-      success: false,
-      error: 'There is no such position',
-    });
-  }
 
   const timeRegEx = /^([0-1][0-9]|2[0-3]):00$/;
 

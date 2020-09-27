@@ -30,6 +30,12 @@
       }
     ],
     "no-shadow": ["error", { "allow": ["Color"] }],
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ],
     "import/prefer-default-export": 0,
     "consistent-return": 0,
     "camelcase": 0

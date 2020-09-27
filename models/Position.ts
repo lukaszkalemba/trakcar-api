@@ -17,6 +17,12 @@ const PositionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Organization',
   },
+  orders: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Order',
+    },
+  ],
 });
 
 export interface IPositionSchema extends Document {
@@ -24,6 +30,7 @@ export interface IPositionSchema extends Document {
   startTime: string;
   endTime: string;
   organization: string;
+  orders: [{ id: string }];
 }
 
 export default model<IPositionSchema>('Position', PositionSchema);

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Position from 'models/Position';
 import User from 'models/User';
+import Organization from 'models/Organization';
 import handlePostionTimeError from 'helpers/handlePostionTimeError';
 
 // @desc    Get all positions of the organization
@@ -90,6 +91,18 @@ export const positions_create_position = async (
       return timeError;
     }
 
+    const organization = await Organization.findById(user.organization);
+
+    if (!organization) {
+      return res.status(404).json({
+        success: false,
+        error: 'No organization found',
+      });
+    }
+
+    organization.positions.push(position.id);
+
+    await organization.save();
     await position.save();
 
     return res.status(201).json({
