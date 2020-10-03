@@ -86,8 +86,12 @@ export const orders_create_order = async (
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
+      interface ErrorValue {
+        message: string;
+      }
+
       const messages = Object.values(err.errors).map(
-        ({ message }: any): string => message
+        (val: ErrorValue | unknown) => (val as ErrorValue).message
       );
 
       return res.status(400).json({
@@ -185,7 +189,13 @@ export const orders_update_order = async (
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
-      const messages = Object.values(err.errors).map((val: any) => val.message);
+      interface ErrorValue {
+        message: string;
+      }
+
+      const messages = Object.values(err.errors).map(
+        (val: ErrorValue | unknown) => (val as ErrorValue).message
+      );
 
       return res.status(400).json({
         success: false,

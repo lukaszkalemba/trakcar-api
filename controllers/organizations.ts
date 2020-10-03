@@ -57,8 +57,12 @@ export const organizations_create_organization = async (
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
+      interface ErrorValue {
+        message: string;
+      }
+
       const messages = Object.values(err.errors).map(
-        ({ message }: any): string => message
+        (val: ErrorValue | unknown) => (val as ErrorValue).message
       );
 
       return res.status(400).json({
@@ -114,8 +118,12 @@ export const organizations_update_organization = async (
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
+      interface ErrorValue {
+        message: string;
+      }
+
       const messages = Object.values(err.errors).map(
-        ({ message }: any): string => message
+        (val: ErrorValue | unknown) => (val as ErrorValue).message
       );
 
       return res.status(400).json({

@@ -111,8 +111,12 @@ export const positions_create_position = async (
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
+      interface ErrorValue {
+        message: string;
+      }
+
       const messages = Object.values(err.errors).map(
-        ({ message }: any): string => message
+        (val: ErrorValue | unknown) => (val as ErrorValue).message
       );
 
       return res.status(400).json({
@@ -190,7 +194,13 @@ export const positions_update_position = async (
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
-      const messages = Object.values(err.errors).map((val: any) => val.message);
+      interface ErrorValue {
+        message: string;
+      }
+
+      const messages = Object.values(err.errors).map(
+        (val: ErrorValue | unknown) => (val as ErrorValue).message
+      );
 
       return res.status(400).json({
         success: false,

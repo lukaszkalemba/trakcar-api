@@ -18,7 +18,15 @@ export default (
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
 
-    req.user = (decoded as any).user;
+    interface DecodedOptions {
+      user: {
+        id: string;
+      };
+      iat: number;
+      exp: number;
+    }
+
+    req.user = (decoded as DecodedOptions).user;
 
     return next();
   } catch (err) {
