@@ -3,7 +3,9 @@
 </p>
 
 <p align="center">
-  Application which helps to organize work of car detailing studios.
+  Trackar is an application which purpose is to help organize work of car detailing studios.
+  <br />
+  This repository includes code of its API.
 </p>
 
 <br/>
@@ -34,20 +36,17 @@
 
 ## 📚 Technologies
 
-- React | NextJS
-- NodeJS | Express
+- NodeJS
+- Express
 - MongoDB
 - TypeScript
-- Jest | React Testing Library
-- SCSS Modules
-- Framer Motion
-- Storybook
-- Atomic Design
-- Formik & Yup
+- REST API
+- JWT
+- Eslint & prettier
 - Husky & lint-staged
 
-<br/>
-<br/>
+  <br/>
+  <br/>
 
 <p align="center">
   Made with ❤ by <a href="https://github.com/lukaszkalemba"><b>@lukaszkalemba</b></a>.
