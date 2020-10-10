@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Organization from 'models/Organization';
-import User from 'models/User';
+import User, { IUserSchema } from 'models/User';
 
 // @desc    Create new organization
 // @route   POST /api/v1/organizations
@@ -186,8 +186,59 @@ export const organizations_delete_organization = async (
   }
 };
 
+// @desc    Get all members of the organization
+// @route   GET /api/v1/organizations/members
+// @access  Private
+export const organizations_get_members = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid token',
+      });
+    }
+
+    const organization = await Organization.findById(user.organization);
+
+    if (!organization) {
+      return res.status(404).json({
+        success: false,
+        error: 'No organization found',
+      });
+    }
+
+    const members: IUserSchema[] = [];
+
+    for await (const memberId of organization.members) {
+      const member = await User.findOne(memberId, [
+        '-_id',
+        '-password',
+        '-organization',
+        '-date',
+      ]);
+
+      members.push(member as IUserSchema);
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: members,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
+
 // @desc    Assign new member to the organization
-// @route   POST /api/v1/organizations/assign-member
+// @route   POST /api/v1/organizations/members
 // @access  Private
 export const organizations_assign_member = async (
   req: Request,

@@ -4,6 +4,7 @@ import {
   organizations_create_organization,
   organizations_delete_organization,
   organizations_update_organization,
+  organizations_get_members,
   organizations_assign_member,
 } from 'controllers/organizations';
 
@@ -15,6 +16,8 @@ router.delete('/:id', auth, organizations_delete_organization);
 
 router.put('/:id', auth, organizations_update_organization);
 
-router.post('/assign-member', auth, organizations_assign_member);
+router.get('/members', auth, organizations_get_members);
+
+router.post('/members', auth, organizations_assign_member);
 
 export default router;

@@ -32,7 +32,7 @@ const UserSchema = new Schema({
   },
 });
 
-interface IUserSchema extends Document {
+export interface IUserSchema extends Document {
   name: string;
   email: string;
   password: string;
