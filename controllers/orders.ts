@@ -157,6 +157,7 @@ export const orders_update_order = async (
     } = updatedOrder;
 
     let orders = await Order.find({ positionId });
+    
     orders = orders.filter(({ id }) => id !== (order as IOrderSchema).id);
 
     const position = await Position.findById(positionId);

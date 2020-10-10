@@ -79,6 +79,7 @@ export const users_signup_user = async (
       const messages = Object.values(err.errors).map(
         (val: ErrorValue | unknown) => (val as ErrorValue).message
       );
+      
       return res.status(400).json({
         success: false,
         error: messages,
@@ -161,7 +162,7 @@ export const users_login_user = async (
       const messages = Object.values(err.errors).map(
         (val: ErrorValue | unknown) => (val as ErrorValue).message
       );
-
+      
       return res.status(400).json({
         success: false,
         error: messages,

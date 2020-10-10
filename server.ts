@@ -7,6 +7,8 @@ import users from 'routes/api/users';
 import organizations from 'routes/api/organizations';
 import positions from 'routes/api/positions';
 import orders from 'routes/api/orders';
+import positions from 'routes/api/positions';
+import users from 'routes/api/users';
 
 dotenv.config({ path: 'config/config.env' });
 
@@ -24,6 +26,8 @@ app.use('/api/v1/users', users);
 app.use('/api/v1/organizations', organizations);
 app.use('/api/v1/positions', positions);
 app.use('/api/v1/orders', orders);
+app.use('/api/v1/positions', positions);
+app.use('/api/v1/users', users);
 
 const PORT = process.env.PORT || 5000;
 
