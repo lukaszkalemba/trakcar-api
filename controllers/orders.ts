@@ -249,6 +249,22 @@ export const orders_delete_order = async (
       });
     }
 
+    const position = await Position.findById(order.positionId);
+
+    if (!position) {
+      return res.status(404).json({
+        success: false,
+        error: 'No position found',
+      });
+    }
+
+    const filteredOrders = position.orders.filter(
+      (id) => id.toString() !== (order as IOrderSchema).id.toString()
+    );
+
+    position.orders = filteredOrders as [{ id: string }];
+
+    await position.save();
     await order.remove();
 
     return res.status(200).json({
