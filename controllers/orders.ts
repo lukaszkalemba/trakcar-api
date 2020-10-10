@@ -121,10 +121,15 @@ export const orders_update_order = async (
 
     for await (const position of (organization as IOrganizationSchema)
       .positions) {
-      order = await Order.findOne({
+      const potencialOrder = await Order.findOne({
         _id: req.params.id,
         positionId: position.toString(),
       });
+
+      if (potencialOrder) {
+        order = potencialOrder;
+        break;
+      }
     }
 
     if (!order) {
@@ -226,10 +231,15 @@ export const orders_delete_order = async (
 
     for await (const position of (organization as IOrganizationSchema)
       .positions) {
-      order = await Order.findOne({
+      const potencialOrder = await Order.findOne({
         _id: req.params.id,
         positionId: position.toString(),
       });
+
+      if (potencialOrder) {
+        order = potencialOrder;
+        break;
+      }
     }
 
     if (!order) {
