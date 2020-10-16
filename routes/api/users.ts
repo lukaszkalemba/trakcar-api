@@ -3,7 +3,7 @@ import { users_signup_user, users_login_user } from 'controllers/users';
 
 const router = express.Router();
 
-router.post('/signup', users_signup_user);
+router.post('/', users_signup_user);
 
 router.post('/login', users_login_user);
 
