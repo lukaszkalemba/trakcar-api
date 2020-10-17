@@ -7,8 +7,30 @@ import User from 'models/User';
 
 dotenv.config({ path: 'config/config.env' });
 
+// @desc    GET user data
+// @route   GET api/users
+// @access  Private
+export const users_get_user = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+
+    return res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
+
 // @desc    Sign up a user
-// @route   POST /api/v1/auth/signup
+// @route   POST /api/v1/users
 // @access  Public
 export const users_signup_user = async (
   req: Request,
@@ -93,7 +115,7 @@ export const users_signup_user = async (
 };
 
 // @desc    Login user
-// @route   POST /api/v1/auth/signin
+// @route   POST /api/v1/users/login
 // @access  Public
 export const users_login_user = async (
   req: Request,
