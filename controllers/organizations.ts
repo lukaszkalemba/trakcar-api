@@ -108,9 +108,21 @@ export const organizations_create_organization = async (
     await organization.save();
     await user.save();
 
+    const organizationData = {
+      admin: organization.admin,
+      name: organization.name,
+      members: [
+        {
+          email: user.email,
+          name: user.name,
+          avatar: user.avatar,
+        },
+      ],
+    };
+
     return res.status(201).json({
       success: true,
-      data: organization,
+      data: organizationData,
     });
   } catch (err) {
     if (err.name === 'ValidationError') {
