@@ -37,7 +37,7 @@ export interface IUserSchema extends Document {
   email: string;
   password: string;
   avatar?: string;
-  organization?: string;
+  organization?: string | null;
   date?: Date;
 }
 

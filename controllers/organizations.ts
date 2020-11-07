@@ -243,6 +243,13 @@ export const organizations_delete_organization = async (
       });
     }
 
+    const members = await User.find({ organization: organization.id });
+
+    for await (const member of members) {
+      member.organization = null;
+      member.save();
+    }
+
     await organization.remove();
 
     return res.status(200).json({

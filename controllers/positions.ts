@@ -66,7 +66,7 @@ export const positions_create_position = async (
 
     const positions = await Position.find({
       name,
-      organization: user.organization,
+      organization: user.organization as string,
     });
 
     if (positions.length) {
