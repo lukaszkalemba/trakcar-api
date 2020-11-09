@@ -167,6 +167,22 @@ export const positions_update_position = async (
 
     const { name, startTime, endTime } = req.body;
 
+    const positions = await Position.find({
+      name,
+      organization: user.organization as string,
+    });
+
+    if (positions.length) {
+      positions.forEach(({ id }): Response | void => {
+        if (id !== position.id) {
+          return res.status(400).json({
+            success: false,
+            error: 'There is a position with this name already',
+          });
+        }
+      });
+    }
+
     const updatedPosition = new Position({
       name,
       startTime,
