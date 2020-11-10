@@ -70,12 +70,21 @@ export const organizations_create_organization = async (
   try {
     const { organizationName, accessCode } = req.body;
 
-    const organizations = await Organization.find({ organizationName });
+    let organizations = await Organization.find({ organizationName });
 
     if (organizations.length) {
       return res.status(400).json({
         success: false,
         error: 'There is an organization with this name already',
+      });
+    }
+
+    organizations = await Organization.find({ accessCode });
+
+    if (organizations.length) {
+      return res.status(400).json({
+        success: false,
+        error: 'Access code have to be unique. This one is already in use.',
       });
     }
 
