@@ -44,7 +44,7 @@ export const organizations_get_organization = async (
     const organizationData = {
       id: organization.id,
       admin: organization.admin,
-      name: organization.name,
+      organizationName: organization.organizationName,
       members,
     };
 
@@ -68,9 +68,9 @@ export const organizations_create_organization = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const { name, accessCode } = req.body;
+    const { organizationName, accessCode } = req.body;
 
-    const organizations = await Organization.find({ name });
+    const organizations = await Organization.find({ organizationName });
 
     if (organizations.length) {
       return res.status(400).json({
@@ -80,7 +80,7 @@ export const organizations_create_organization = async (
     }
 
     const organization = new Organization({
-      name,
+      organizationName,
       accessCode,
       admin: req.user.id,
       members: [req.user.id],
@@ -112,7 +112,7 @@ export const organizations_create_organization = async (
     const organizationData = {
       id: organization.id,
       admin: organization.admin,
-      name: organization.name,
+      organizationName: organization.organizationName,
       members: [
         {
           email: user.email,
@@ -176,9 +176,9 @@ export const organizations_update_organization = async (
       });
     }
 
-    const { name, accessCode } = updatedOrganization;
+    const { organizationName, accessCode } = updatedOrganization;
 
-    organization.name = name;
+    organization.organizationName = organizationName;
     organization.accessCode = accessCode;
 
     await organization.save();

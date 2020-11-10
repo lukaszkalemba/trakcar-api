@@ -1,7 +1,7 @@
 import { Document, Schema, model } from 'mongoose';
 
 const OrganizationSchema = new Schema({
-  name: {
+  organizationName: {
     type: String,
     unique: true,
     required: [true, 'Enter an organization name'],
@@ -31,7 +31,7 @@ const OrganizationSchema = new Schema({
 });
 
 export interface IOrganizationSchema extends Document {
-  name: string;
+  organizationName: string;
   accessCode: string;
   admin: string;
   members: [{ id: string }];
