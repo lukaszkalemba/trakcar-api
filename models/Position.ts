@@ -1,7 +1,7 @@
 import { Document, Schema, model } from 'mongoose';
 
 const PositionSchema = new Schema({
-  name: {
+  positionName: {
     type: String,
     required: [true, 'Enter a position name'],
   },
@@ -26,7 +26,7 @@ const PositionSchema = new Schema({
 });
 
 export interface IPositionSchema extends Document {
-  name: string;
+  positionName: string;
   startTime: string;
   endTime: string;
   organization: string;

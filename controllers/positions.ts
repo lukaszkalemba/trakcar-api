@@ -62,10 +62,10 @@ export const positions_create_position = async (
       });
     }
 
-    const { name, startTime, endTime } = req.body;
+    const { positionName, startTime, endTime } = req.body;
 
     const positions = await Position.find({
-      name,
+      positionName,
       organization: user.organization as string,
     });
 
@@ -77,7 +77,7 @@ export const positions_create_position = async (
     }
 
     const position = new Position({
-      name,
+      positionName,
       startTime,
       endTime,
       organization: user.organization,
@@ -165,10 +165,10 @@ export const positions_update_position = async (
       });
     }
 
-    const { name, startTime, endTime } = req.body;
+    const { positionName, startTime, endTime } = req.body;
 
     const positions = await Position.find({
-      name,
+      positionName,
       organization: user.organization as string,
     });
 
@@ -184,7 +184,7 @@ export const positions_update_position = async (
     }
 
     const updatedPosition = new Position({
-      name,
+      positionName,
       startTime,
       endTime,
       organization: user.organization,
@@ -198,7 +198,7 @@ export const positions_update_position = async (
       return timeError;
     }
 
-    position.name = updatedPosition.name;
+    position.positionName = updatedPosition.positionName;
     position.startTime = updatedPosition.startTime;
     position.endTime = updatedPosition.endTime;
 
