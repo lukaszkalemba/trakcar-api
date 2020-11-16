@@ -147,7 +147,7 @@ export const orders_update_order = async (
       date,
       startTime,
       endTime,
-      name,
+      orderName,
       carBrand,
       carModel,
       principalName,
@@ -178,7 +178,7 @@ export const orders_update_order = async (
     order.date = date;
     order.startTime = startTime;
     order.endTime = endTime;
-    order.name = name;
+    order.orderName = orderName;
     order.carBrand = carBrand;
     order.carModel = carModel;
     order.principalName = principalName;

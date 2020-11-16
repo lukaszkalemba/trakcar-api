@@ -17,7 +17,7 @@ const OrderSchema = new Schema({
     type: String,
     required: [true, 'Enter the time of completion of work'],
   },
-  name: {
+  orderName: {
     type: String,
     required: [true, 'Enter the name of the order'],
   },
@@ -61,7 +61,7 @@ export interface IOrderSchema extends Document {
   date: string;
   startTime: string;
   endTime: string;
-  name: string;
+  orderName: string;
   carBrand: string;
   carModel: string;
   principalName: string;
