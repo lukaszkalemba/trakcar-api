@@ -38,23 +38,13 @@ const OrderSchema = new Schema({
     required: [true, 'Enter the price'],
   },
   color: {
-    type: Number,
-    enum: [0, 1, 2, 3, 4],
-    default: 0,
+    type: String,
     required: [true, 'Enter a distinctive color'],
   },
   description: {
     type: String,
   },
 });
-
-enum Color {
-  Red = 0,
-  Orange = 1,
-  Green = 2,
-  Violet = 3,
-  Blue = 4,
-}
 
 export interface IOrderSchema extends Document {
   positionId: string;
@@ -66,7 +56,7 @@ export interface IOrderSchema extends Document {
   carModel: string;
   principalName: string;
   cost: number;
-  color: Color;
+  color: 'red' | 'orange' | 'green' | 'violet' | 'blue';
   description?: string;
 }
 
