@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Position from 'models/Position';
 import User from 'models/User';
 import Organization from 'models/Organization';
+import Order from 'models/Order';
 import handlePostionTimeError from 'helpers/handlePostionTimeError';
 
 // @desc    Get all positions of the organization
@@ -262,6 +263,10 @@ export const positions_delete_position = async (
         success: false,
         error: 'This position is not assigned to your organization',
       });
+    }
+
+    for await (const order of position.orders) {
+      await Order.findByIdAndDelete(order);
     }
 
     await position.remove();
