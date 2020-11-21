@@ -23,7 +23,7 @@ export const positions_get_all = async (
     }
 
     if (!user.organization) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         error: 'You are not a member of any organization',
       });
