@@ -184,6 +184,33 @@ export const positions_update_position = async (
       });
     }
 
+    const comparedStartTime = parseInt(startTime.substring(0, 2), 10);
+    const comparedEndTime = parseInt(endTime.substring(0, 2), 10);
+
+    for await (const orderId of position.orders) {
+      const order = await Order.findById(orderId);
+
+      if (order) {
+        const comparedOrderStartTime = parseInt(
+          order.startTime.substring(0, 2),
+          10
+        );
+
+        const comparedOrderEndTime = parseInt(
+          order.endTime.substring(0, 2),
+          10
+        );
+
+        if (comparedOrderStartTime < comparedStartTime) {
+          await order.remove();
+        }
+
+        if (comparedOrderEndTime > comparedEndTime) {
+          await order.remove();
+        }
+      }
+    }
+
     const updatedPosition = new Position({
       positionName,
       startTime,
